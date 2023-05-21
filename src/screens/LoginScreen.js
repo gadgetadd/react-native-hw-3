@@ -1,6 +1,19 @@
-import { Button, StyleSheet, Text, TextInput, View, } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
+import {
+    Button,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ImageBackground
+} from 'react-native';
+import background from '../assets/images/background.jpg'
+import { Fontisto } from '@expo/vector-icons';
+
 
 export default function LoginScreen() {
     const [login, setLogin] = useState('')
@@ -9,39 +22,56 @@ export default function LoginScreen() {
     const handleLogin = () => {
         const formData = { login, password }
         console.log(formData);
+        setLogin('');
+        setPassword('');
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.form}>
-                <Text style={styles.title}>Login</Text>
-                <TextInput
-                    value={login}
-                    onChangeText={setLogin}
-                    style={styles.input}
-                    placeholder="Login"
-                />
-                <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    style={styles.input}
-                    placeholder="Password"
-                    secureTextEntry
-                />
-                <Button title="Login" color="#FF6C00" />
-                <Text style={styles.text}>Don't have an account? Register</Text>
-            </View>
-            <StatusBar style="auto" />
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ImageBackground source={background} style={styles.container} resizeMode="cover">
+                <View style={styles.form}>
+                    <View style={styles.icon}>
+                        <Fontisto name="person" size={80} color="#767b91" />
+                    </View>
+                    <Text style={styles.title}>Login</Text>
+                    <KeyboardAvoidingView enabled behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                        <TextInput
+                            value={login}
+                            onChangeText={setLogin}
+                            style={styles.input}
+                            placeholder="Login"
+                        />
+                        <TextInput
+                            value={password}
+                            onChangeText={setPassword}
+                            style={styles.input}
+                            placeholder="Password"
+                            secureTextEntry
+                        />
+                    </KeyboardAvoidingView>
+                    <Button title="Login" color="#FF6C00" onPress={handleLogin} />
+                    <Text style={styles.text}>Don't have an account? Register</Text>
+                </View>
+            </ImageBackground >
+        </TouchableWithoutFeedback >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'lightblue',
-        alignItems: 'center',
         justifyContent: 'flex-end',
+    },
+    icon: {
+        position: 'absolute',
+        top: -70,
+        backgroundColor: '#e1e5ee',
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
         fontSize: 36,
@@ -54,17 +84,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Regular',
         marginTop: 20,
         textAlign: 'center'
-
     },
     form: {
         backgroundColor: '#fff',
-        height: '40%',
-        width: '100%',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
-        paddingVertical: 40,
+        paddingVertical: 60,
         paddingHorizontal: 20,
-
     },
     input: {
         height: 40,
@@ -76,5 +102,4 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
     },
-
 });
