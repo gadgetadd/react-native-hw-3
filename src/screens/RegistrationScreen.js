@@ -1,19 +1,61 @@
-import { Button, StyleSheet, Text, TextInput, View, } from 'react-native';
+import { useState } from 'react';
+import {
+    Button,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 export default function RegistrationScreen() {
+
+    const [login, setLogin] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleRegister = () => {
+        const formData = { login, email, password }
+        console.log(formData);
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.form}>
-                <Text style={styles.title}>Registration</Text>
-                <TextInput style={styles.input} placeholder="Login" />
-                <TextInput style={styles.input} placeholder="Email" />
-                <TextInput style={styles.input} placeholder="Password" />
-                <Button title="Register" color="#FF6C00" />
-                <Text style={styles.text}>Already have an account ? Log in</Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <View style={styles.form}>
+                    <Text style={styles.title}>Registration</Text>
+                    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                        <TextInput
+                            value={login}
+                            onChangeText={setLogin}
+                            style={styles.input}
+                            placeholder="Login"
+                        />
+                        <TextInput
+                            value={email}
+                            onChangeText={setEmail}
+                            style={styles.input}
+                            placeholder="Email"
+                            keyboardType="email-address"
+                        />
+                        <TextInput
+                            value={password}
+                            onChangeText={setPassword}
+                            style={styles.input}
+                            placeholder="Password"
+                            secureTextEntry
+                        />
+                    </KeyboardAvoidingView>
+                    <Button title="Register" color="#FF6C00" onPress={handleRegister} />
+                    <Text style={styles.text}>Already have an account ? Log in</Text>
+                </View>
+                <StatusBar style="auto" />
             </View>
-            <StatusBar style="auto" />
-        </View>
+        </TouchableWithoutFeedback >
     )
 }
 

@@ -1,13 +1,33 @@
 import { Button, StyleSheet, Text, TextInput, View, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 
 export default function LoginScreen() {
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleLogin = () => {
+        const formData = { login, password }
+        console.log(formData);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.form}>
                 <Text style={styles.title}>Login</Text>
-                <TextInput style={styles.input} placeholder="Login" />
-                <TextInput style={styles.input} placeholder="Password" />
+                <TextInput
+                    value={login}
+                    onChangeText={setLogin}
+                    style={styles.input}
+                    placeholder="Login"
+                />
+                <TextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    style={styles.input}
+                    placeholder="Password"
+                    secureTextEntry
+                />
                 <Button title="Login" color="#FF6C00" />
                 <Text style={styles.text}>Don't have an account? Register</Text>
             </View>
